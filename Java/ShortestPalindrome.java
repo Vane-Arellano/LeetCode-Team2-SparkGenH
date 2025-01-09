@@ -1,45 +1,34 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        int days = prices.length;
+        int[] left = new int[days]; int[] right = new int[days]; 
+        int left_min = prices[0];
+        int right_max = prices[days-1];
+        int profit = right[0];
 
-public class Main
-{
-	public static String shortestPalindrome(String s) {
-        if (s == null || s.length() == 0) {
-            return s;
+        if(days == 1){
+            return profit;
         }
 
-        String rev_s = new StringBuilder(s).reverse().toString();
-        // we concatenate the original string plus a * separator to the reversed string so we can apply KMP algorithm
-        String new_s = s + "*" + rev_s;
+        left[0] = 0; 
+        right[days-1] = 0;
 
-        // We create the longest palindrome suffix array 
-        int[] lps = new int[new_s.length()];
-
-        for (int i = 1; i < new_s.length(); i++) {
-            //for each char of the new string created, we compare the character on the ith position 
-            // to the pasts chars represented by the jth position, if this are equal, we increment j on one 
-            // if this are not equal, we place j the value of the length of the last maximum palindrome
-            // we set on the ith element of lps the value of j that at this point represents the length of the maximum palindrome 
-            int j = lps[i - 1];
-            while (j > 0 && new_s.charAt(i) != new_s.charAt(j)) {
-                j = lps[j - 1];
-            }
-            if (new_s.charAt(i) == new_s.charAt(j)) {
-                j++;
-            }
-            lps[i] = j;
+        for(int i=1; i<days; i++){
+            left[i] = Math.max(left[i-1], prices[i] - left_min); 
+            left_min = Math.min(left_min, prices[i]);
+        }
+        for(int i = days-2; i >= 0; i--){
+            right[i] = Math.max(right[i+1], right_max - prices[i]); 
+            right_max = Math.max(right_max, prices[i]);
+        }
+        
+        profit = right[0];
+        for(int i = 1; i < days-1; i++){
+            profit = Math.max(profit, left[i-1]+right[i]);
         }
 
-        // the last element of the lps array has the length of the max palindrome within the original string 
-        int max_palindrome_len = lps[lps.length - 1];
-
-        // here we get the remaining last characters of the original 
-        //string by taking out the ones containing the palindrome
-        String to_add = rev_s.substring(0, s.length() - max_palindrome_len);
-        System.out.println(to_add + s);
-        return to_add + s;
-    }
-	public static void main(String[] args) {
-	    String s = "aacecaaa";
-        shortestPalindrome(s);
+        return profit;
+    
+    
     }
 }
-
