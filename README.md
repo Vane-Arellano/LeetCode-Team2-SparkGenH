@@ -23,19 +23,16 @@ The repository is organized by programming language and each programming languag
         - Problem1.ts
         - Problem2.ts
         - Problem3.ts
-        - Problem4.ts
     /Java
         - Problem1.java
         - Problem2.java
         - Problem3.java
-        - Problem4.java
     /Python
         - Problem1.py
         - Problem2.py
         - Problem3.py
-        - Problem4.py
     /SQL
-        - Problem3.sql  # SQL solution for Department Top Three Salaries
+        - Problem1.sql  # SQL solution for Department Top Three Salaries
 ```
 
 ### Pull Request Guidelines
